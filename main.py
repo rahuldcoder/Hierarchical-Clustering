@@ -23,13 +23,15 @@ def create_sentence_embedding(model,input_sentence):
 
     return sentence_embedding     
     
-def hierarchicalClustering(vector_of_sentences):
-    pdist = scipy.spatial.distance.squareform(pdist(vector_of_sentences, 'cosine'))
+def hierarchicalClustering(vector_of_sentences,L):
+    cosine_distances = pdist(vector_of_sentences, 'cosine')
+    square_form_distance = scipy.spatial.distance.squareform(cosine_distances)
     
     
     for method in ['single', 'complete', 'average', 'weighted']:
-        Z = scipy.cluster.hierarchy.linkage(pdist, method=method)
+        Z = scipy.cluster.hierarchy.linkage(square_form_distance, method=method)
         R = scipy.cluster.hierarchy.inconsistent(Z, d=2)
+        print(R)
         plt.clf()
         fig = plt.figure()
         ax = fig.add_axes([.1, .1, .8, .8])
@@ -57,6 +59,7 @@ def main(model) :
 
     vector_of_sentences = np.array(vector_of_sentences)
     print (vector_of_sentences.shape)
+    hierarchicalClustering(vector_of_sentences,L=list(map(str,range(num_of_sentences))))
 
     
         
