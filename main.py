@@ -10,6 +10,12 @@ import matplotlib.pyplot as plt
 import scipy.cluster.hierarchy
 import scipy.spatial.distance
 
+def readfile(filename):
+    file_object = open(filename,'r')
+    file_list = file_object.readlines()
+    return file_list
+
+
 def create_sentence_embedding(model,input_sentence):
 
     sentence_embedding = np.ones(300,)
@@ -39,19 +45,9 @@ def hierarchicalClustering(vector_of_sentences,L):
         plt.savefig('{}.pdf'.format(method))
 
 def main(model) :
-
-    sentences = list()
-
-    print('Enter the number of sentences ')
-    num_of_sentences = int( input() )
-
-    print('Enter the sentences')
-
-    for _ in range(num_of_sentences):
-        sen = input()
-        sen = sen.split()
-        sentences.append(sen)
-
+    
+    sentences = readfile('StackOverflow(2).txt')
+    num_of_sentences = len(sentences)
     vector_of_sentences = list()
 
     for i in range(num_of_sentences):
